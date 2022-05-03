@@ -1,3 +1,43 @@
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(45, 45, 45);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(115, 115, 115);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #d52436;
+}
+
+.paper {
+  cursor: pointer;
+  /* border: 3px solid rgb(31, 41, 55); */
+}
+
+.noSelect {
+  -webkit-tap-highlight-color: red;
+  -webkit-tap-highlight-color: transparent;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .footerContent {
+    @apply flex flex-col gap-y-1;
+  }
+  .footerContent > span {
+    @apply cursor-pointer text-sm text-gray-200 hover:text-white hover:underline;
+  }
+}
