@@ -1,5 +1,6 @@
 import { ArrowNarrowRightIcon } from '@heroicons/react/solid'
 import Donator from './Donator'
+import { filterContributorsByHash } from '../utils/utils'
 
 const TopDonators = ({ contributorData }) => {
   return (
@@ -16,11 +17,10 @@ const TopDonators = ({ contributorData }) => {
         className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 md:grid-cols-3
        lg:grid-cols-4 xl:grid-cols-5"
       >
-        {[...contributorData]
+        {[...filterContributorsByHash(contributorData)]
           .reverse()
-          .slice(0, 9)
-          .map(({ contributor, id }, i) => (
-            <Donator key={id} hash={contributor} i={i} />
+          .map((contributor, i) => (
+            <Donator key={i} contributor={contributor[1]} i={i} />
           ))}
       </div>
     </div>

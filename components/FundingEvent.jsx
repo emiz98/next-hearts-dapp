@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 import { goalPercentage } from '../utils/utils'
 import { motion } from 'framer-motion'
+import { filterContributorsByEvent } from '../utils/utils'
 
 const FundingEvent = ({
   author,
@@ -16,6 +17,9 @@ const FundingEvent = ({
   index,
 }) => {
   const [inputAmount, setInputAmount] = useState(0.1)
+  let divStyle = {
+    width: goalPercentage(tipAmount, goalAmount) + '%',
+  }
 
   const donate = () => {
     if (inputAmount < 0.01) {
@@ -24,6 +28,7 @@ const FundingEvent = ({
     }
     donateToEvent(id, parseFloat(inputAmount).toFixed(3))
   }
+
   return (
     <motion.div
       initial={{ x: 50, opacity: 0 }}
@@ -64,33 +69,36 @@ const FundingEvent = ({
             {contributors.length > 0 && (
               <>
                 <span className="cursor-pointer text-xs text-gray-300 group-hover:underline">
-                  {contributors.length} Contributors
+                  {contributors.length} Contributions
                 </span>
                 <div className="flex items-center">
-                  {contributors.slice(0, 3).map(({ contributor }, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ x: 50, opacity: 0 }}
-                      animate={{
-                        x: 0,
-                        opacity: 1,
-                        transition: {
-                          delay: 0.1,
-                          duration: 0.7,
-                        },
-                      }}
-                      exit={{
-                        x: 100,
-                        opacity: 0,
-                      }}
-                      className={`mr-1`}
-                    >
-                      <Jazzicon
-                        diameter={20}
-                        seed={jsNumberForAddress(contributor)}
-                      />
-                    </motion.div>
-                  ))}
+                  {[...filterContributorsByEvent(contributors)]
+                    .reverse()
+                    .slice(0, 3)
+                    .map((contributor, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ x: 50, opacity: 0 }}
+                        animate={{
+                          x: 0,
+                          opacity: 1,
+                          transition: {
+                            delay: 0.1,
+                            duration: 0.7,
+                          },
+                        }}
+                        exit={{
+                          x: 100,
+                          opacity: 0,
+                        }}
+                        className={`mr-1`}
+                      >
+                        <Jazzicon
+                          diameter={20}
+                          seed={jsNumberForAddress(contributor[0])}
+                        />
+                      </motion.div>
+                    ))}
                 </div>
               </>
             )}
@@ -120,10 +128,8 @@ const FundingEvent = ({
         <div className="mt-8 flex items-center space-x-4">
           <div className="h-4 w-full rounded-full bg-gray-200">
             <div
-              className={`h-4 w-[${goalPercentage(
-                tipAmount,
-                goalAmount
-              ).toString()}%] rounded-full bg-gradient-to-r 
+              style={divStyle}
+              className={`h-4 w-[100%] rounded-full bg-gradient-to-r 
           from-red-600 to-red-400`}
             ></div>
           </div>
