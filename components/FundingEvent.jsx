@@ -48,7 +48,7 @@ const FundingEvent = ({
     >
       <img
         className="h-48 w-full rounded-lg object-cover grayscale"
-        src={`https://ipfs.infura.io/ipfs/${imageHash}`}
+        src={`https://infura-ipfs.io/ipfs/${imageHash}`}
         alt="fund"
       />
       <div className="flex flex-grow flex-col">
